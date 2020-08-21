@@ -18,9 +18,9 @@
 
 <script>
 // @ is an alias to /src
-import ToDoList from '../components/ToDoList';
-import ToDoInput from '../components/ToDoInput';
-import ToDoControls from '../components/ToDoControls';
+import ToDoList from '../components/todo/ToDoList';
+import ToDoInput from '../components/todo/ToDoInput';
+import ToDoControls from '../components/todo/ToDoControls';
 
 export default {
   name: 'ToDoPage',
