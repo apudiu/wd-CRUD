@@ -1,12 +1,15 @@
 <template>
   <b-card class="text-center mt-3 mb-3 bg-light">
 
-    <h3>{{ post.title }}</h3>
+    <div>
+      <h3>{{ post.title }}</h3>
+      <b-button size="sm" variant="outline-primary" class="post-edit-btn">Edit</b-button>
+    </div>
 
     <small
       v-for="category in categories"
       :key="category.id"
-      class="badge text-capitalize"
+      class="badge text-capitalize border border-secondary ml-1 mr-1"
     >
       {{ category.name }}
     </small>
@@ -15,40 +18,49 @@
 
     <div class="text-right text-muted mt-2 posted">{{ post.published }}</div>
 
+<!--    <NewPost />-->
+
   </b-card>
+
 </template>
 
 <script>
-    export default {
-      name: "Post",
+  // import NewPost from "./NewPost";
 
-      props: {
-        post: {
-          type: Object,
-          required: true
-        }
-      },
+  export default {
+    name: "Post",
 
-      data() {
-        return {
-          categories: []
-        }
-      },
+    props: {
+      post: {
+        type: Object,
+        required: true
+      }
+    },
 
-      mounted() {
-        this.getCategoriesByIds()
-      },
+    components: {
+        // NewPost
+    },
 
-      methods: {
+    data() {
+      return {
+        categories: []
+      }
+    },
 
-        getCategoriesByIds() {
+    mounted() {
+      this.getCategoriesByIds()
+    },
 
-          const type = this.$store.getters.getTypes.category;
+    methods: {
 
-          this.categories = this.post.categories.map(categoryId => this.$store.getters.getOne(type, categoryId));
-        }
+      getCategoriesByIds() {
+
+        const type = this.$store.getters.getTypes.category;
+
+        this.categories = this.post.categories.map(categoryId => this.$store.getters.getOne(type, categoryId));
       }
     }
+  }
 </script>
 
 <style scoped>
@@ -58,5 +70,10 @@
   }
   .badge {
     font-size: 15px;
+  }
+  .post-edit-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
   }
 </style>

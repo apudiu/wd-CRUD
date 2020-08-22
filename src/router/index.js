@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import PostsPage from '../views/PostsPage';
+import CategoriesPage from "../views/CategoriesPage";
 
 Vue.use(VueRouter)
 
@@ -13,7 +14,7 @@ const routes = [
   {
     path: '/categories',
     name: 'categories',
-    component: () => import(/* webpackChunkName: crud_posts */ '../views/CategoriesPage')
+    component: CategoriesPage
   }
 ]
 

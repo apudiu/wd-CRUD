@@ -81,26 +81,7 @@
     </b-modal>
 
     <NewCategory />
-    <b-modal
-      id="add-category"
-      title="New Category"
-      size="sm"
-      ok-only
-      ok-title="Save"
-      header-bg-variant="primary"
-      header-text-variant="light"
-    >
-      <b-form-group
-        label="Category Name"
-        label-for="name-input"
-      >
-        <b-form-input
-          id="name-input"
-          v-model="title"
-          required
-        />
-      </b-form-group>
-    </b-modal>
+
   </div>
 </template>
 
@@ -112,6 +93,13 @@
 
   export default {
     name: 'NewPost',
+
+    props: {
+      editing: {
+          type: Boolean,
+          default: false
+      }
+    },
 
     components: {
       Multiselect,
@@ -144,11 +132,11 @@
     },
 
     watch: {
-      categories(newState, oldState) {
+      categories(newState) {
 
         const newItem = newState[newState.length -1];
 
-        console.log('watch', newState, oldState, newItem);
+        this.selectedCategories.push(newItem);
       }
     },
 
