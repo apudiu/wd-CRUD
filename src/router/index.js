@@ -1,24 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import ToDoPage from '../views/ToDoPage'
-import crudRoutes from './crudRoutes';
+import PostsPage from '../views/PostsPage';
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/todo',
-    name: 'todo',
-    component: ToDoPage
+    path: '/',
+    name: 'posts',
+    component: PostsPage
   },
   {
-    path: '/',
-    name: 'crud',
-    component: () => import(/* webpackChunkName: "about" */ '../views/CrudPage.vue')
-  },
-  
-  // merging crud routes
-  ...crudRoutes
+    path: '/categories',
+    name: 'categories',
+    component: () => import(/* webpackChunkName: crud_posts */ '../views/CategoriesPage')
+  }
 ]
 
 const router = new VueRouter({

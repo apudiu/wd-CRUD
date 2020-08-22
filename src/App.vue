@@ -3,16 +3,16 @@
 
     <b-nav tabs align="center" class="navigation">
       <b-nav-item
-        :active="$route.name === 'todo'"
-        :to="{name: 'todo'}"
+        :active="$route.name === 'posts'"
+        :to="{name: 'posts'}"
       >
-        TODO
+        POSTS
       </b-nav-item>
       <b-nav-item
-        :active="$route.name === 'crud'"
-        :to="{name: 'crud'}"
+        :active="$route.name === 'categories'"
+        :to="{name: 'categories'}"
       >
-          CRUD
+          CATEGORIES
       </b-nav-item>
     </b-nav>
 
