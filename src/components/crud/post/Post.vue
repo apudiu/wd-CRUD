@@ -3,7 +3,14 @@
 
     <div>
       <h3>{{ post.title }}</h3>
-      <b-button size="sm" variant="outline-primary" class="post-edit-btn">Edit</b-button>
+      <b-button
+        size="sm"
+        variant="outline-primary"
+        class="post-edit-btn"
+        v-b-modal="`modal-edit-post-${post.id}`"
+      >
+        Edit
+      </b-button>
     </div>
 
     <small
@@ -18,14 +25,14 @@
 
     <div class="text-right text-muted mt-2 posted">{{ post.published }}</div>
 
-<!--    <NewPost />-->
+    <EditPost :post="post" />
 
   </b-card>
 
 </template>
 
 <script>
-  // import NewPost from "./NewPost";
+  import EditPost from "./EditPost";
 
   export default {
     name: "Post",
@@ -38,17 +45,14 @@
     },
 
     components: {
-        // NewPost
+        EditPost
     },
 
-    data() {
-      return {
-        categories: []
+    computed: {
+
+      categories() {
+        return this.getCategoriesByIds()
       }
-    },
-
-    mounted() {
-      this.getCategoriesByIds()
     },
 
     methods: {
@@ -57,7 +61,7 @@
 
         const type = this.$store.getters.getTypes.category;
 
-        this.categories = this.post.categories.map(categoryId => this.$store.getters.getOne(type, categoryId));
+        return this.post.categories.map(categoryId => this.$store.getters.getOne(type, categoryId));
       }
     }
   }

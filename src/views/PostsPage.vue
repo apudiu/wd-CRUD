@@ -4,7 +4,7 @@
       <b-col class="mb-3">
         <b-button
           variant="primary"
-          v-b-modal.modal-new-post
+          v-b-modal="`modal-new-post`"
         >
           Add new post
         </b-button>

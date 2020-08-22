@@ -1,10 +1,14 @@
+<!--
+  * We can re-use "NePost" component by modifying a bit
+  * but for save some time just duplicating this
+-->
 <template>
   <div>
     <b-modal
-        id="modal-new-post"
+        :id="modalId"
         ref="modal"
-        title="New Post"
-        ok-title="Submit"
+        title="Edit Post"
+        ok-title="Save Changes"
         header-bg-variant="primary"
         header-text-variant="light"
         @shown="modalShown"
@@ -90,7 +94,14 @@
   import { capitalizeFirstChar } from "../../../assets/js/helper";
 
   export default {
-    name: 'NewPost',
+    name: 'EditPost',
+
+    props: {
+      post: {
+          type: Object,
+          required: true
+      }
+    },
 
     components: {
       Multiselect,
@@ -99,7 +110,9 @@
 
     data() {
       return {
+        modalId: `modal-edit-post-${this.post.id}`,
         title: '',
+        postCategories: [],
         selectedCategories: [],
         body: '',
       }
@@ -110,13 +123,6 @@
         const categories = this.$store.getters.getAll(this.$store.getters.getTypes.category);
 
         return categories.map(category => ({...category, name: capitalizeFirstChar(category.name)}));
-      },
-
-      lastInsertId() {
-
-        const categories = this.$store.getters.getAll(this.$store.getters.getTypes.post);
-
-        return (categories.length) ? categories[categories.length -1].id : 1;
       }
     },
 
@@ -126,13 +132,23 @@
         const newItem = newState[newState.length -1];
 
         this.selectedCategories.push(newItem);
+      },
+
+      postCategories(newState) {
+        this.selectedCategories = this.categories.filter(category => newState.includes(category.id));
       }
     },
 
     methods: {
 
       modalShown() {
-        this.resetModal();
+
+        const { title, categories, body } = this.post;
+
+        // map prop to data
+        this.title = title;
+        this.postCategories = categories;
+        this.body = body;
       },
 
       modalHidden() {
@@ -141,6 +157,7 @@
 
       resetModal() {
         this.title = '';
+        this.postCategories = [];
         this.selectedCategories = [];
         this.body = '';
       },
@@ -154,7 +171,7 @@
 
       handleSubmit() {
 
-        const postData = this.prepareNewPost();
+        const postData = this.prepareUpdatedPost();
 
         if (!postData.title.trim().length && !postData.body.trim().length) {
 
@@ -162,27 +179,22 @@
           return;
         }
 
-        this.$store.dispatch('addItem', postData);
+        this.$store.dispatch('updateItem', postData);
 
         // Hide the modal manually
         this.$nextTick(() => {
-            this.$bvModal.hide('modal-new-post')
+            this.$bvModal.hide(this.modalId)
         });
       },
 
-      prepareNewPost() {
-
-        const time = new Date().toDateString();
-
-        const categories = this.selectedCategories.map(category => category.id);
+      prepareUpdatedPost() {
 
         return {
+          ...this.post,
           type: this.$store.getters.getTypes.post,
-          id: this.lastInsertId +1,
           title: this.title,
           body: this.body,
-          categories,
-          published: time
+          categories: this.selectedCategories.map(category => category.id)
         }
       }
     }
